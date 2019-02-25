@@ -24,21 +24,23 @@ export default {
         ...mapGetters('artifact', { artifactList: 'list' }), // this.artifactList
 
         trimmedSearch() {
-            return this.searchText.trim().toLowerCase();
+            return this.stripText(this.searchText);
         },
         filteredHeroes() {
-            return (
+            const results =
                 this.heroList &&
-                this.searchText.length &&
-                this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1)
-            );
+                this.trimmedSearch.length &&
+                this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1);
+            console.log(results && results.slice(0, 5));
+            return results;
         },
         filteredArtifacts() {
-            return (
+            const results =
                 this.artifactList &&
-                this.searchText.length &&
-                this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1)
-            );
+                this.trimmedSearch.length &&
+                this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1);
+            console.log(results && results.slice(0, 5));
+            return results;
         },
     },
 
@@ -50,6 +52,12 @@ export default {
             }
             return undefined;
         },
+        stripText(value) {
+            return value
+                .trim()
+                .toLowerCase()
+                .replace(/\s|-|'/, '');
+        },
     },
 
     mounted() {
@@ -58,8 +66,8 @@ export default {
             this.dispatch(this.artifactList, 'artifact/getList'),
         ]).then(() => {
             // just store these changes so we don't have to calc on the fly
-            this.heroList.forEach((h) => (h.trimmedName = h.name.trim().toLowerCase()));
-            this.artifactList.forEach((a) => (a.trimmedName = a.name.trim().toLowerCase()));
+            this.heroList.forEach((h) => (h.trimmedName = this.stripText(h.name)));
+            this.artifactList.forEach((a) => (a.trimmedName = this.stripText(a.name)));
             this.isLoading = false;
         });
     },
