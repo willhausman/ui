@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <input type="text" class="search-input" v-model="searchText" />
-        <ResultsList />
+        <ResultsList v-if="!isLoading" :artifacts="filteredArtifacts" :heroes="filteredHeroes" />
     </div>
 </template>
 
@@ -27,10 +27,18 @@ export default {
             return this.searchText.trim().toLowerCase();
         },
         filteredHeroes() {
-            return this.heroList && this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1);
+            return (
+                this.heroList &&
+                this.searchText.length &&
+                this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1)
+            );
         },
         filteredArtifacts() {
-            return this.artifactList && this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1);
+            return (
+                this.artifactList &&
+                this.searchText.length &&
+                this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1)
+            );
         },
     },
 
