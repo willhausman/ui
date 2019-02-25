@@ -22,8 +22,15 @@ export default {
     computed: {
         ...mapGetters('hero', { heroList: 'list' }), // this.heroList
         ...mapGetters('artifact', { artifactList: 'list' }), // this.artifactList
+
+        trimmedSearch() {
+            return this.searchText.trim().toLowerCase();
+        },
         filteredHeroes() {
-            return this.heroList && this.heroList.filter((h) => h.name.indexOf(this.searchText) > -1);
+            return this.heroList && this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1);
+        },
+        filteredArtifacts() {
+            return this.artifactList && this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1);
         },
     },
 
@@ -42,6 +49,9 @@ export default {
             this.dispatch(this.heroList, 'hero/getList'),
             this.dispatch(this.artifactList, 'artifact/getList'),
         ]).then(() => {
+            // just store these changes so we don't have to calc on the fly
+            this.heroList.forEach((h) => (h.trimmedName = h.name.trim().toLowerCase()));
+            this.artifactList.forEach((a) => (a.trimmedName = a.name.trim().toLowerCase()));
             this.isLoading = false;
         });
     },
