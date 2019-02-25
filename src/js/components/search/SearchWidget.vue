@@ -22,20 +22,21 @@ export default {
         ...mapGetters('artifact', { artifactList: 'list' }), // this.artifactList
     },
 
+    methods: {
+        dispatch(list, action) {
+            if (!list || !list.length) {
+                this.isLoading = true;
+                return this.$store.dispatch(action);
+            }
+            return undefined;
+        },
+    },
+
     mounted() {
-        const listsWaiting = [];
-
-        if (!this.heroList || !this.heroList.length) {
-            this.isLoading = true;
-            listsWaiting.push(this.$store.dispatch('hero/getList'));
-        }
-
-        if (!this.artifactList || !this.artifactList.length) {
-            this.isLoading = true;
-            listsWaiting.push(this.$store.dispatch('artifact/getList'));
-        }
-
-        Promise.all(listsWaiting).then(() => {
+        Promise.all([
+            this.dispatch(this.heroList, 'hero/getList'),
+            this.dispatch(this.artifactList, 'artifact/getList'),
+        ]).then(() => {
             this.isLoading = false;
         });
     },
