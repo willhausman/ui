@@ -1,25 +1,30 @@
 <template>
     <div class="search">
-        <input type="text" class="search-input" :value="searchText" />
+        <input type="text" class="search-input" v-model="searchText" />
+        <ResultsList />
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-// import ResultsList from '@/js/components/search/ResultsList';
+import ResultsList from '@/js/components/search/ResultsList';
 
 export default {
     data() {
         return {
             isLoading: false,
+            searchText: '',
         };
     },
-    // components: {
-    //     ResultsList,
-    // },
+    components: {
+        ResultsList,
+    },
     computed: {
         ...mapGetters('hero', { heroList: 'list' }), // this.heroList
         ...mapGetters('artifact', { artifactList: 'list' }), // this.artifactList
+        filteredHeroes() {
+            return this.heroList && this.heroList.filter((h) => h.name.indexOf(this.searchText) > -1);
+        },
     },
 
     methods: {
