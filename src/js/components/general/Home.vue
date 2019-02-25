@@ -56,7 +56,7 @@
         <main class="column is-three-fifths-tablet is-12-mobile">
             <section class="section-container">
                 <div class="section-box">
-                    <h1>Know what you're looking for?</h1>
+                    <h1>What are you looking for?</h1>
                     <hr />
                     <SearchWidget />
                 </div>
