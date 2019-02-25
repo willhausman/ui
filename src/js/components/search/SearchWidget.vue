@@ -27,20 +27,18 @@ export default {
             return this.stripText(this.searchText);
         },
         filteredHeroes() {
-            const results =
+            return (
                 this.heroList &&
                 this.trimmedSearch.length &&
-                this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1);
-            console.log(results && results.slice(0, 5));
-            return results;
+                this.heroList.filter((h) => h.trimmedName.indexOf(this.trimmedSearch) > -1)
+            );
         },
         filteredArtifacts() {
-            const results =
+            return (
                 this.artifactList &&
                 this.trimmedSearch.length &&
-                this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1);
-            console.log(results && results.slice(0, 5));
-            return results;
+                this.artifactList.filter((a) => a.trimmedName.indexOf(this.trimmedSearch) > -1)
+            );
         },
     },
 
@@ -56,7 +54,7 @@ export default {
             return value
                 .trim()
                 .toLowerCase()
-                .replace(/\s|-|'/, '');
+                .replace(/\s|-|'|&/g, ''); // remove white space and other special characters
         },
     },
 

@@ -5,7 +5,7 @@
                 <HeroListItem :hero="hero" :id="hero.fileId" :key="hero.fileId" v-for="hero in displayHeroes" />
             </ul>
         </div>
-        <div class="hero-list" v-if="displayHeroes.length">
+        <div class="hero-list" v-if="displayArtifacts.length">
             <ul class="columns is-mobile artifact-list-ul">
                 <ArtifactListItem
                     :artifact="artifact"
